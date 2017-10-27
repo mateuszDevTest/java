@@ -18,20 +18,17 @@ public class LoginTest {
 
     //Set URL for test:
     String url = "http://demo.testarena.pl";
-
+    String loginCorrect = "administrator@testarena.pl";
+    String passCorrect = "sumXQQ72$L";
 
     //Correct log in TC1.
     @Test
     public void shouldLogIn () {
 
+            //TestSetup login = new TestSetup();
+            //login.LogInCorrect(loginCorrect, passCorrect, url);
 
-
-        //Correct Login/Password (TC1)
-        String loginCorrect = "administrator@testarena.pl";
-        String passCorrect = "sumXQQ72$L";
-
-
-        WebDriver driver = new ChromeDriver();
+            WebDriver driver = new ChromeDriver();
             driver.get(url);
 
             driver.findElement(By.id("email")).sendKeys(loginCorrect);
@@ -46,7 +43,7 @@ public class LoginTest {
             driver.close();
     }
 
-    //Empty Login/Passsword
+    //Empty Login/Passsword TC2
     @Test
     public void shouldNotLogInEmpty () {
         String loginEmpty ="";
@@ -60,11 +57,88 @@ public class LoginTest {
             driver.findElement(By.id("login")).click();
 
             //Assertions for email
-            assertEquals(driver.findElement(By.xpath("//input[@id='password']/../div[@class='login_form_error']")).getText(), "Pole wymagane");
+            assertEquals("Pole wymagane", driver.findElement(By.xpath("//input[@id='password']/../div[@class='login_form_error']")).getText());
 
             //Assertions for password
-            assertEquals(driver.findElement(By.xpath("//input[@id='password']/../div[@class='login_form_error']")).getText(), "Pole wymagane");
+            assertEquals("Pole wymagane", driver.findElement(By.xpath("//input[@id='password']/../div[@class='login_form_error']")).getText());
             driver.close();
 
     }
+
+    // Empty Login/ Filled Password TC3.
+    @Test
+    public void shouldNotLogInOneEmpty () {
+        String loginEmpty ="";
+
+
+        WebDriver driver = new ChromeDriver();
+        driver.get(url);
+
+        driver.findElement(By.id("email")).sendKeys(loginEmpty);
+        driver.findElement(By.id("password")).sendKeys(passCorrect);
+        driver.findElement(By.id("login")).click();
+
+        //Assertions for password
+        assertEquals("Adres e-mail i/lub hasło są niepoprawne.", driver.findElement(By.xpath("//input[@id='password']/../div[@class='login_form_error']")).getText());
+        driver.close();
+
+    }
+
+    // Correct Login/Wrong Password TC4.
+    @Test
+    public void shouldNotLogInWrongPass () {
+
+        String passWrong ="qweqweqwe";
+
+        WebDriver driver = new ChromeDriver();
+        driver.get(url);
+
+        driver.findElement(By.id("email")).sendKeys(loginCorrect);
+        driver.findElement(By.id("password")).sendKeys(passWrong);
+        driver.findElement(By.id("login")).click();
+
+        //Assertions for email
+        assertEquals("Adres e-mail i/lub hasło są niepoprawne.", driver.findElement(By.xpath("//input[@id='password']/../div[@class='login_form_error']")).getText());
+        driver.close();
+
+    }
+
+    // Correct Login/Wrong Password TC4.
+    @Test
+    public void shouldNotLogInWrongEmail () {
+
+        String loginWrong ="qweqweqwe@wp.pl";
+
+        WebDriver driver = new ChromeDriver();
+        driver.get(url);
+
+        driver.findElement(By.id("email")).sendKeys(loginWrong);
+        driver.findElement(By.id("password")).sendKeys(passCorrect);
+        driver.findElement(By.id("login")).click();
+
+        //Assertions for email
+        assertEquals("Adres e-mail i/lub hasło są niepoprawne.", driver.findElement(By.xpath("//input[@id='password']/../div[@class='login_form_error']")).getText());
+        driver.close();
+
+    }
+
+
+    //Wrong email format TC5.
+    @Test
+    public void shouldNotLogInWrongEmailFormat () {
+        String loginEmpty ="wwwww#eee.pl";
+
+        WebDriver driver = new ChromeDriver();
+        driver.get(url);
+
+        driver.findElement(By.id("email")).sendKeys(loginEmpty);
+        driver.findElement(By.id("login")).click();
+
+        //Assertions for email
+        assertEquals("Nieprawidłowy format adresu e-mail. Wprowadź adres ponownie.", driver.findElement(By.xpath("//input[@id='email']/../div[@class='login_form_error']")).getText());
+        driver.close();
+
+    }
+
+
 }
