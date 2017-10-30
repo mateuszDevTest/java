@@ -5,18 +5,49 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-/**
- * Created by Mateusz on 2017-10-17.
- */
-public class TestSetup {
+import static org.junit.Assert.assertEquals;
 
-    public void LogInCorrect (String loginCorrect, String passCorrect, String url) {
+class TestSetup {
+    String url = "http://demo.testarena.pl";
+    String loginCorrect = "administrator@testarena.pl";
+    String passCorrect = "sumXQQ72$L";
 
-        WebDriver driver = new ChromeDriver();
+    private WebDriver driver;
+
+    void logIn(String loginCorrect, String passCorrect) {
+
+        driver = new ChromeDriver();
+
+        open(url);
+        findElementById("email", loginCorrect);
+        findElementById("password", passCorrect);
+        clickElementWithId("login");
+    }
+    private void open(String url){
         driver.get(url);
+    }
 
-        driver.findElement(By.id("email")).sendKeys(loginCorrect);
-        driver.findElement(By.id("password")).sendKeys(passCorrect);
-        driver.findElement(By.id("login")).click();
+    private void clickElementWithId(String id) {
+        driver.findElement(By.id(id)).click();
+    }
+
+    private void findElementById(String id, String sendKey){
+        driver.findElement(By.id(id)).sendKeys(sendKey);
+    }
+
+    void clickElementWithXpath(String xpath){
+        driver.findElement(By.xpath(xpath)).click();
+    }
+
+    void isEqualToXpath(String expected, String actual) {
+        assertEquals(expected, driver.findElement(By.xpath(actual)).getText());
+    }
+
+    boolean isDisplayedElementByClassName(String className) {
+         return driver.findElement(By.className(className)).isDisplayed();
+    }
+
+    void close() {
+        driver.close();
     }
 }
