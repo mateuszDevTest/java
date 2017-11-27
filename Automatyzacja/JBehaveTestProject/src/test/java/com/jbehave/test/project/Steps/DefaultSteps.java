@@ -1,6 +1,6 @@
 package com.jbehave.test.project.Steps;
 
-import com.jbehave.test.project.Pages.LoginPage;
+
 import org.jbehave.core.annotations.AfterStories;
 import org.jbehave.core.annotations.BeforeStories;
 import org.jbehave.core.steps.Steps;
@@ -13,6 +13,9 @@ import java.util.concurrent.TimeUnit;
 public class DefaultSteps extends Steps {
 
     public WebDriver driver;
+    String url = "http://demo.testarena.pl";
+    String email = "administrator@testarena.pl";
+    String pass = "sumXQQ72$L";
 
     @BeforeStories
     public void setUp(){
@@ -39,5 +42,25 @@ public class DefaultSteps extends Steps {
     public boolean elementWithClassIsDisplayed(String className) {
         return driver.findElement(By.className(className)).isDisplayed();
     }
+    public boolean elementWithLinkIsDisplayed(String link) {
+        return driver.findElement(By.partialLinkText(link)).isDisplayed();
+    }
+    public boolean elementWithIdIsDisplayed(String id) {
+        return driver.findElement(By.id(id)).isDisplayed();
+    }
+
+    public void goToPageUsingClass (String className){
+        driver.findElement(By.className(className)).click();
+    }
+
+    public void goToPageUsingPLink (String pLink){
+        driver.findElement(By.partialLinkText(pLink)).click();
+    }
+
+    public void goToPageUsingXPath (String xPath) {
+        driver.findElement(By.xpath(xPath)).click();
+    }
+
+
 
 }

@@ -4,22 +4,20 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 /**
- * Created by Mateusz on 2017-11-26.
+ * Created by Mateusz on 2017-11-27.
  */
-public class LoginPage {
+public class ProjectPage {
     WebDriver driver;
 
-    public LoginPage(WebDriver driver) {
+    public ProjectPage(WebDriver driver) {
         this.driver = driver;
     }
 
-    public void writeElementById (String id, String text){
+    public void fillElementWithId(String id, String text) {
         driver.findElement(By.id(id)).sendKeys(text);
     }
 
-    public void clickLogIn(String id) {
+    public void pressSaveButtonUsingId(String id){
         driver.findElement(By.id(id)).click();
     }
-
-
 }
